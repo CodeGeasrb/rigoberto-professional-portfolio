@@ -5,7 +5,461 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rigoberto Rincón - Portafolio</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent: #00d4ff;
+            --accent-hover: #00b8e6;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .hero-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            animation: pulse 3s infinite;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            width: 83%;
+            height: 53%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 25px 50px rgba(0, 212, 255, 0.5); }
+            100% { box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3); }
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: transparent;
+            border: none;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .flag {
+            font-size: 16px;
+        }
+
+        .lang-text {
+            font-weight: 500;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border: none;
+            border-radius: 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            margin: 40px 0;
+            border-radius: 20px;
+        }
+
+        .section:nth-child(even) {
+            background: var(--bg-primary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: var(--accent);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background: transparent;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 30px;
+            background: var(--bg-card);
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-content h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .timeline-content .date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        /* About section special styling */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hobby-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Project Links */
+        .project-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .project-link i {
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                width: 200px;
+                height: 200px;
+                font-size: 5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item::after {
+                left: 10px !important;
+            }
+
+            .nav {
+                top: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+
+            .language-selector {
+                top: 20px;
+                left: 20px;
+            }
+
+            .project-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Language Selector -->
@@ -18,7 +472,7 @@
             <img src="https://flagcdn.com/w20/us.png" alt="US" class="flag">
             <span class="lang-text">EN</span>
         </button>
-    </div>
+      </div>
 
     <!-- Navigation -->
     <nav class="nav">
@@ -35,20 +489,18 @@
                 <div class="hero-text">
                     <h1 data-es="Rigoberto Rincón" data-en="Rigoberto Rincón">Rigoberto Rincón</h1>
                     <div class="subtitle" data-es="Ingeniero de IA" data-en="AI Engineer">Ingeniero de IA</div>
-                    <p data-es="Ingeniero de IA con experiencia en automatización, ciencia de datos y machine learning aplicado a diagnóstico y negocio. Me apasiona aprender constantemente y transformar problemas complejos en soluciones prácticas que generen impacto real. Disfruto trabajar en equipo, compartir conocimientos y combinar ciencia y tecnología para mejorar la vida de las personas." data-en="AI Engineer experienced in automation, data science, and machine learning applied to diagnostics and business. I am passionate about continuous learning and transforming complex problems into practical solutions that create real impact. I enjoy working in teams, sharing knowledge, and combining science and technology to improve people's lives.">Ingeniero de IA con experiencia en automatización, ciencia de datos y machine learning aplicado a diagnóstico y negocio. Me apasiona aprender constantemente y transformar problemas complejos en soluciones prácticas que generen impacto real. Disfruto trabajar en equipo, compartir conocimientos y combinar ciencia y tecnología para mejorar la vida de las personas.</p>
+                    <p data-es="Ingeniero de IA con experiencia en automatización, ciencia de datos y machine learning aplicado a diagnóstico y negocio. Me apasiona aprender constantemente y transformar problemas complejos en soluciones prácticas que generen impacto real. Disfruto trabajar en equipo, compartir conocimientos y combinar ciencia y tecnología para mejorar la vida de las personas." data-en="AI Engineer experienced in automation, data science, and machine learning applied to diagnostics and business. I am passionate about continuous learning and transforming complex problems into practical solutions that create real impact. I enjoy working in teams, sharing knowledge, and combining science and technology to improve people’s lives.">Ingeniero de IA con experiencia en automatización, ciencia de datos y machine learning aplicado a diagnóstico y negocio. Me apasiona aprender constantemente y transformar problemas complejos en soluciones prácticas que generen impacto real. Disfruto trabajar en equipo, compartir conocimientos y combinar ciencia y tecnología para mejorar la vida de las personas.</p>
                     <div class="social-links">
                         <a href="https://www.linkedin.com/in/rigoberto-rinc%C3%B3n-ballesteros-8a7229159/"><i class="fab fa-linkedin"></i></a>
                         <a href="https://github.com/CodeGeasrb"><i class="fab fa-github"></i></a>
                         <a href="mailto:ririba@outlook.es">
                             <i class="fas fa-envelope"></i>
-                        </a>
+                          </a>
                     </div>
                 </div>
-                <div class="hero-image">
                     <img src="assets/me.jpg" alt="Rigoberto Rincón" class="profile-image">
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- Trayectoria Section -->
@@ -59,66 +511,68 @@
             <!-- Experience Cards -->
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <h3 data-es="Experiencia Profesional" data-en="Professional Experience">Experiencia Profesional</h3>
-                    <p data-es="Con cerca de 3 años de experiencia he liderando proyectos de inteligencia artificial y ciencia de datos. He desarrollado bots inteligentes y pipelines de datos, integrando herramientas como LLMs, FastAPI, n8n, Make, Botpress y UiPath para construir soluciones de automatización y análisis de datos en entornos empresariales." 
-                        data-en="With nearly 3 years of experience, I have led projects in artificial intelligence and data science. I have developed intelligent bots and data pipelines, integrating tools such as LLMs, FastAPI, n8n, Make, Botpress, and UiPath to build automation and data analysis solutions in business environments.">
-                        Con cerca de 3 años de experiencia he liderando proyectos de inteligencia artificial y ciencia de datos. He desarrollado bots inteligentes y pipelines de datos, integrando herramientas como LLMs, FastAPI, n8n, Make, Botpress y UiPath para construir soluciones de automatización y análisis de datos en entornos empresariales.
-                    </p>
+                <div class="card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 data-es="Experiencia Profesional" data-en="Professional Experience">Experiencia Profesional</h3>
+                <p data-es="Con cerca de 3 años de experiencia he liderando proyectos de inteligencia artificial y ciencia de datos. He desarrollado bots inteligentes y pipelines de datos, integrando herramientas como LLMs, FastAPI, n8n, Make, Botpress y UiPath para construir soluciones de automatización y análisis de datos en entornos empresariales." 
+                    data-en="With nearly 3 years of experience, I have led projects in artificial intelligence and data science. I have developed intelligent bots and data pipelines, integrating tools such as LLMs, FastAPI, n8n, Make, Botpress, and UiPath to build automation and data analysis solutions in business environments.">
+                    Con cerca de 3 años de experiencia he liderando proyectos de inteligencia artificial y ciencia de datos. He desarrollado bots inteligentes y pipelines de datos, integrando herramientas como LLMs, FastAPI, n8n, Make, Botpress y UiPath para construir soluciones de automatización y análisis de datos en entornos empresariales.
+                </p>
                 </div>
             
                 <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 data-es="Formación Académica" data-en="Academic Background">Formación Académica</h3>
-                    <p data-es="Maestría en Bioingeniería e Inteligencia Computacional por la Universidad de Guadalajara, enfocado en el uso de machine learning aplicado a biomedicina y análisis de datos biológicos. Ingeniería en Bioquímica por el Instituto Tecnológico de Colima, con sólida formación en ciencias exactas." 
-                        data-en="Master's degree in Bioengineering and Intelligent Computing from the University of Guadalajara, focused on applying machine learning to biomedicine and biological data analysis. Bachelor's degree in Biochemical Engineering from the Technological Institute of Colima, with a strong foundation in exact sciences.">
-                        Maestría en Bioingeniería e Inteligencia Computacional por la Universidad de Guadalajara, enfocado en el uso de machine learning aplicado a biomedicina y análisis de datos biológicos. Ingeniería en Bioquímica por el Instituto Tecnológico de Colima, con sólida formación en ciencias exactas.
-                    </p>
+                <div class="card-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 data-es="Formación Académica" data-en="Academic Background">Formación Académica</h3>
+                <p data-es="Maestría en Bioingeniería e Inteligencia Computacional por la Universidad de Guadalajara, enfocado en el uso de machine learning aplicado a biomedicina y análisis de datos biológicos. Ingeniería en Bioquímica por el Instituto Tecnológico de Colima, con sólida formación en ciencias exactas." 
+                    data-en="Master’s degree in Bioengineering and Intelligent Computing from the University of Guadalajara, focused on applying machine learning to biomedicine and biological data analysis. Bachelor’s degree in Biochemical Engineering from the Technological Institute of Colima, with a strong foundation in exact sciences.">
+                    Maestría en Bioingeniería e Inteligencia Computacional por la Universidad de Guadalajara, enfocado en el uso de machine learning aplicado a biomedicina y análisis de datos biológicos. Ingeniería en Bioquímica por el Instituto Tecnológico de Colima, con sólida formación en ciencias exactas.
+                </p>
                 </div>
             </div>
+  
 
             <!-- Timeline -->
             <div class="timeline" style="margin-top: 80px;">
                 <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3 data-es="Ingeniero de IA" data-en="AI Engineer">Ingeniero de IA</h3>
-                        <div class="date" data-es="Junio 2025 - Presente" data-en="June 2025 - Present">Junio 2025 - Presente</div>
-                        <p data-es="Ingeniero de IA en GDLConnect, desarrollando soluciones de automatización inteligente y RPA, chatbots con RAG y microservicios con FastAPI para modelos de machine learning." 
-                        data-en="AI Engineer at GDLConnect, developing intelligent automation and RPA solutions, RAG-based chatbots, and FastAPI microservices for machine learning models.">
-                        Ingeniero de IA en GDLConnect, desarrollando soluciones de automatización inteligente y RPA, chatbots con RAG y microservicios con FastAPI para modelos de machine learning.
-                        </p>
-                    </div>
+                <div class="timeline-content">
+                    <h3 data-es="Ingeniero de IA" data-en="AI Engineer">Ingeniero de IA</h3>
+                    <div class="date" data-es="Junio 2025 - Presente" data-en="June 2025 - Present">Junio 2025 - Presente</div>
+                    <p data-es="Ingeniero de IA en GDLConnect, desarrollando soluciones de automatización inteligente y RPA, chatbots con RAG y microservicios con FastAPI para modelos de machine learning." 
+                    data-en="AI Engineer at GDLConnect, developing intelligent automation and RPA solutions, RAG-based chatbots, and FastAPI microservices for machine learning models.">
+                    Ingeniero de IA en GDLConnect, desarrollando soluciones de automatización inteligente y RPA, chatbots con RAG y microservicios con FastAPI para modelos de machine learning.
+                    </p>
+                </div>
                 </div>
             
                 <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3 data-es="Científico de datos (Freelance)" data-en="Data Scientist (Freelance)">Científico de datos<br>(Freelance)</h3>
-                        <div class="date" data-es="Enero 2025 - Junio 2025" data-en="January 2025 - June 2025">Enero 2025 - Junio 2025</div>
-                        <p data-es="Científico de datos en SESAJ, liderando proyectos de análisis de datos en el sector público, desarrollo de pipelines ETL, aplicaciones con Streamlit, modelos de machine learning y dashboards interactivos en Power BI y Looker Studio." 
-                        data-en="Data Scientist at SESAJ, leading data analysis projects in the public sector, developing ETL pipelines, applications with Streamlit, machine learning models, and interactive dashboards in Power BI and Looker Studio.">
-                        Científico de datos en SESAJ, liderando proyectos de análisis de datos en el sector público, desarrollo de pipelines ETL, aplicaciones con Streamlit, modelos de machine learning y dashboards interactivos en Power BI y Looker Studio.
-                        </p>
-                    </div>
+                <div class="timeline-content">
+                    <h3 data-es="Científico de datos (Freelance)" data-en="Data Scientist (Freelance)">Científico de datos<br>(Freelance)</h3>
+                    <div class="date" data-es="Enero 2025 - Junio 2025" data-en="January 2025 - June 2025">Enero 2025 - Junio 2025</div>
+                    <p data-es="Científico de datos en SESAJ, liderando proyectos de análisis de datos en el sector público, desarrollo de pipelines ETL, aplicaciones con Streamlit, modelos de machine learning y dashboards interactivos en Power BI y Looker Studio." 
+                    data-en="Data Scientist at SESAJ, leading data analysis projects in the public sector, developing ETL pipelines, applications with Streamlit, machine learning models, and interactive dashboards in Power BI and Looker Studio.">
+                    Científico de datos en SESAJ, liderando proyectos de análisis de datos en el sector público, desarrollo de pipelines ETL, aplicaciones con Streamlit, modelos de machine learning y dashboards interactivos en Power BI y Looker Studio.
+                    </p>
+                </div>
                 </div>
             
                 <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3 data-es="Estudiante de maestría en ciencias en Universidad de Guadalajara (Proyecto de tesis)" 
-                            data-en="Master's Student in Science at University of Guadalajara (Thesis Project)">
-                            Estudiante de maestría en ciencias en Universidad de Guadalajara<br>(Proyecto de tesis)
-                        </h3>
-                        <div class="date" data-es="Enero 2023 - Diciembre 2024" data-en="January 2023 - December 2024">Enero 2023 - Diciembre 2024</div>
-                        <p data-es="Proyecto de tesis de Maestría en la Universidad de Guadalajara: desarrollo de una herramienta de diagnóstico para detección de enfermedades mediante machine learning, con pipelines de evaluación y selección de modelos de clustering y clasificación, utilizando Python (Scikit-learn, Pandas, Plotly) y MATLAB." 
-                        data-en="Master's thesis project at the University of Guadalajara: development of a diagnostic tool for disease detection using machine learning, including pipelines for evaluation and selection of clustering and classification models, implemented with Python (Scikit-learn, Pandas, Plotly) and MATLAB.">
-                        Proyecto de tesis de Maestría en la Universidad de Guadalajara: desarrollo de una herramienta de diagnóstico para detección de enfermedades mediante machine learning, con pipelines de evaluación y selección de modelos de clustering y clasificación, utilizando Python (Scikit-learn, Pandas, Plotly) y MATLAB.
-                        </p>
-                    </div>
+                <div class="timeline-content">
+                    <h3 data-es="Estudiante de maestría en ciencias en Universidad de Guadalajara (Proyecto de tesis)" 
+                        data-en="Master’s Student in Science at University of Guadalajara (Thesis Project)">
+                        Estudiante de maestría en ciencias en Universidad de Guadalajara<br>(Proyecto de tesis)
+                    </h3>
+                    <div class="date" data-es="Enero 2023 - Diciembre 2024" data-en="January 2023 - December 2024">Enero 2023 - Diciembre 2024</div>
+                    <p data-es="Proyecto de tesis de Maestría en la Universidad de Guadalajara: desarrollo de una herramienta de diagnóstico para detección de enfermedades mediante machine learning, con pipelines de evaluación y selección de modelos de clustering y clasificación, utilizando Python (Scikit-learn, Pandas, Plotly) y MATLAB." 
+                    data-en="Master’s thesis project at the University of Guadalajara: development of a diagnostic tool for disease detection using machine learning, including pipelines for evaluation and selection of clustering and classification models, implemented with Python (Scikit-learn, Pandas, Plotly) and MATLAB.">
+                    Proyecto de tesis de Maestría en la Universidad de Guadalajara: desarrollo de una herramienta de diagnóstico para detección de enfermedades mediante machine learning, con pipelines de evaluación y selección de modelos de clustering y clasificación, utilizando Python (Scikit-learn, Pandas, Plotly) y MATLAB.
+                    </p>
+                </div>
                 </div>
             </div>
+  
             
             <!-- Skills Cards -->
             <div class="cards-grid" style="margin-top: 80px;">
@@ -127,7 +581,7 @@
                         <i class="fas fa-code"></i>
                     </div>
                     <h3 data-es="Programación" data-en="Programming">Programación</h3>
-                    <p data-es="He trabajado principalmente con Python, usando Pandas, NumPy y Matplotlib para análisis de datos, y Scikit-learn y PyTorch para modelos de Machine Learning y Deep Learning. También implemento estos modelos como microservicios con FastAPI, además de utilizar SQL y Matlab en proyectos de bioinformática." data-en="I have worked primarily with Python, using Pandas, NumPy, and Matplotlib for data analysis, and Scikit-learn and PyTorch for Machine Learning and Deep Learning models. I also deploy these models as microservices with FastAPI, in addition to using SQL and Matlab in bioinformatics projects.">He trabajado principalmente con Python, usando Pandas, NumPy y Matplotlib para análisis de datos, y Scikit-learn y PyTorch para modelos de Machine Learning y Deep Learning. También implemento estos modelos como microservicios con FastAPI, además de utilizar SQL y Matlab en proyectos de bioinformática.</p>
+                    <p data-es="He trabajado principalmente con Python, usando Pandas, NumPy y Matplotlib para análisis de datos, y Scikit-learn y PyTorch para modelos de Machine Learning y Deep Learning. También implemento estos modelos como microservicios con FastAPI, además de utilizar SQL y Matlab en proyectos de bioinformática." data-en="I have worked primarily with Python, using Pandas, NumPy, and Matplotlib for data analysis, and Scikit-learn and PyTorch for Machine Learning and Deep Learning models. I also deploy these models as microservices with FastAPI, in addition to using SQL and Matlab in bioinformatics projects." >He trabajado principalmente con Python, usando Pandas, NumPy y Matplotlib para análisis de datos, y Scikit-learn y PyTorch para modelos de Machine Learning y Deep Learning. También implemento estos modelos como microservicios con FastAPI, además de utilizar SQL y Matlab en proyectos de bioinformática.</p>
                 </div>
                 
                 <div class="card">
@@ -146,6 +600,7 @@
                     <p data-es="Utilizo herramientas de automatización como UiPath, n8n y Make para flujos RPA. Trabajo con LLMs mediante APIs de OpenAI, Groq y HuggingFace, integrados con LangChain y Botpress en agentes y chatbots. Además, utilizo GitHub para colaboración y Power BI/Looker Studio en dashboards interactivos." data-en="I am proficient in automation tools such as UiPath, n8n, and Make for RPA workflows. I work with LLMs via APIs from OpenAI, Groq, and HuggingFace, integrated with LangChain and Botpress to develop intelligent agents and chatbots. I also use GitHub for collaboration and Power BI/Looker Studio to create interactive dashboards.">Utilizo herramientas de automatización como UiPath, n8n y Make para flujos RPA. Trabajo con LLMs mediante APIs de OpenAI, Groq y HuggingFace, integrados con LangChain y Botpress en agentes y chatbots. Además, utilizo GitHub para colaboración y Power BI/Looker Studio en dashboards interactivos.</p>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -156,38 +611,39 @@
             
             <div class="about-grid">
                 <div>
-                    <h3 data-es="¿Quién soy?" data-en="Who am I?" 
-                        style="color: var(--accent); font-size: 1.8rem; margin-bottom: 20px;">
-                        ¿Quién soy?
-                    </h3>
-                    <p data-es="Soy una persona apasionada por la ciencia, la tecnología y el aprendizaje constante. Mi trayectoria combina el rigor científico con el desarrollo de soluciones tecnológicas basadas en inteligencia artificial, ciencia de datos y automatización inteligente, siempre con el objetivo de transformar información compleja en aplicaciones útiles para la sociedad y las empresas. Me considero una persona curiosa, responsable y perseverante, que disfruta trabajar en equipo y compartir conocimientos, especialmente a través de la mentoría y la colaboración. Mi motivación principal es resolver problemas complejos con un enfoque creativo y pragmático, integrando ciencia y tecnología para generar impacto real." 
-                        data-en="I am passionate about science, technology, and continuous learning. My background combines scientific rigor with the development of technological solutions based on artificial intelligence, data science, and intelligent automation, always aiming to transform complex information into useful applications for society and businesses. I consider myself curious, responsible, and perseverant, enjoying teamwork and knowledge-sharing, especially through mentoring and collaboration. My main motivation is solving complex problems with a creative and pragmatic approach, integrating science and technology to create real impact."
-                        style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 30px;">
-                        Soy una persona apasionada por la ciencia, la tecnología y el aprendizaje constante. Mi trayectoria combina el rigor científico con el desarrollo de soluciones tecnológicas basadas en inteligencia artificial, ciencia de datos y automatización inteligente, siempre con el objetivo de transformar información compleja en aplicaciones útiles para la sociedad y las empresas. Me considero una persona curiosa, responsable y perseverante, que disfruta trabajar en equipo y compartir conocimientos, especialmente a través de la mentoría y la colaboración. Mi motivación principal es resolver problemas complejos con un enfoque creativo y pragmático, integrando ciencia y tecnología para generar impacto real.
-                    </p>
+                  <h3 data-es="¿Quién soy?" data-en="Who am I?" 
+                      style="color: var(--accent); font-size: 1.8rem; margin-bottom: 20px;">
+                    ¿Quién soy?
+                  </h3>
+                  <p data-es="Soy una persona apasionada por la ciencia, la tecnología y el aprendizaje constante. Mi trayectoria combina el rigor científico con el desarrollo de soluciones tecnológicas basadas en inteligencia artificial, ciencia de datos y automatización inteligente, siempre con el objetivo de transformar información compleja en aplicaciones útiles para la sociedad y las empresas. Me considero una persona curiosa, responsable y perseverante, que disfruta trabajar en equipo y compartir conocimientos, especialmente a través de la mentoría y la colaboración. Mi motivación principal es resolver problemas complejos con un enfoque creativo y pragmático, integrando ciencia y tecnología para generar impacto real." 
+                     data-en="I am passionate about science, technology, and continuous learning. My background combines scientific rigor with the development of technological solutions based on artificial intelligence, data science, and intelligent automation, always aiming to transform complex information into useful applications for society and businesses. I consider myself curious, responsible, and perseverant, enjoying teamwork and knowledge-sharing, especially through mentoring and collaboration. My main motivation is solving complex problems with a creative and pragmatic approach, integrating science and technology to create real impact."
+                     style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 30px;">
+                     Soy una persona apasionada por la ciencia, la tecnología y el aprendizaje constante. Mi trayectoria combina el rigor científico con el desarrollo de soluciones tecnológicas basadas en inteligencia artificial, ciencia de datos y automatización inteligente, siempre con el objetivo de transformar información compleja en aplicaciones útiles para la sociedad y las empresas. Me considero una persona curiosa, responsable y perseverante, que disfruta trabajar en equipo y compartir conocimientos, especialmente a través de la mentoría y la colaboración. Mi motivación principal es resolver problemas complejos con un enfoque creativo y pragmático, integrando ciencia y tecnología para generar impacto real.
+                  </p>
                 </div>
             
                 <div>
-                    <h3 data-es="Mis Pasiones" data-en="My Passions" 
-                        style="color: var(--accent); font-size: 1.8rem; margin-bottom: 20px;">
-                        Mis Pasiones
-                    </h3>
-                    <p data-es="Cuando no estoy aprendiendo algo nuevo, me encontrarás:" 
-                        data-en="When I am not learning something new, you will find me:" 
-                        style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 20px;">
-                        Cuando no estoy aprendiendo algo nuevo, me encontrarás:
-                    </p>
+                  <h3 data-es="Mis Pasiones" data-en="My Passions" 
+                      style="color: var(--accent); font-size: 1.8rem; margin-bottom: 20px;">
+                    Mis Pasiones
+                  </h3>
+                  <p data-es="Cuando no estoy aprendiendo algo nuevo, me encontrarás:" 
+                     data-en="When I am not learning something new, you will find me:" 
+                     style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 20px;">
+                    Cuando no estoy aprendiendo algo nuevo, me encontrarás:
+                  </p>
             
-                    <div class="hobby-tags">
-                        <span class="tag" data-es="⚽ Viendo futbol" data-en="⚽ Watching football">⚽ Viendo futbol</span>
-                        <span class="tag" data-es="🎧 Escuchando música" data-en="🎧 Listening to music">🎧 Escuchando música</span>
-                        <span class="tag" data-es="📚 Leyendo" data-en="📚 Reading">📚 Leyendo</span>
-                        <span class="tag" data-es="📺 Viendo series" data-en="📺 Watching series">📺 Viendo series</span>
-                        <span class="tag" data-es="🏋️ Haciendo ejercicio" data-en="🏋️ Working out">🏋️ Haciendo ejercicio</span>
-                        <span class="tag" data-es="🎮 Jugando videojuegos" data-en="🎮 Playing video games">🎮 Jugando videojuegos</span>
-                    </div>
+                  <div class="hobby-tags">
+                    <span class="tag" data-es="⚽ Viendo futbol" data-en="⚽ Watching football">⚽ Viendo futbol</span>
+                    <span class="tag" data-es="🎧 Escuchando música" data-en="🎧 Listening to music">🎧 Escuchando música</span>
+                    <span class="tag" data-es="📚 Leyendo" data-en="📚 Reading">📚 Leyendo</span>
+                    <span class="tag" data-es="📺 Viendo series" data-en="📺 Watching series">📺 Viendo series</span>
+                    <span class="tag" data-es="🏋️ Haciendo ejercicio" data-en="🏋️ Working out">🏋️ Haciendo ejercicio</span>
+                    <span class="tag" data-es="🎮 Jugando videojuegos" data-en="🎮 Playing video games">🎮 Jugando videojuegos</span>
+                  </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -234,7 +690,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3 data-es="Análisis de datos de redes sociales" data-en="Social media data analytics">Análisis de datos de redes sociales</h3>
-                    <p data-es="Implementé un pipeline con Python, SQLite y Power BI para analizar los comentarios de los debates presidenciales de México 2024. Usando NLP y el modelo robertuito de HuggingFace, descubrí patrones de opinión pública y tendencias sociales a partir de miles de interacciones en YouTube." data-en="I implemented a pipeline with Python, SQLite, and Power BI to analyze comments from the Mexican presidential debates of 2024. Using NLP and HuggingFace's robertuito model, I discovered patterns of public opinion and social trends from thousands of interactions on YouTube.">Implementé un pipeline con Python, SQLite y Power BI para analizar los comentarios de los debates presidenciales de México 2024. Usando NLP y el modelo robertuito de HuggingFace, descubrí patrones de opinión pública y tendencias sociales a partir de miles de interacciones en YouTube.</p>
+                    <p data-es="Implementé un pipeline con Python, SQLite y Power BI para analizar los comentarios de los debates presidenciales de México 2024. Usando NLP y el modelo robertuito de HuggingFace, descubrí patrones de opinión pública y tendencias sociales a partir de miles de interacciones en YouTube." data-en="I implemented a pipeline with Python, SQLite, and Power BI to analyze comments from the Mexican presidential debates of 2024. Using NLP and HuggingFace’s robertuito model, I discovered patterns of public opinion and social trends from thousands of interactions on YouTube.">Implementé un pipeline con Python, SQLite y Power BI para analizar los comentarios de los debates presidenciales de México 2024. Usando NLP y el modelo robertuito de HuggingFace, descubrí patrones de opinión pública y tendencias sociales a partir de miles de interacciones en YouTube.</p>
                     <div class="project-links">
                         <a href="https://www.linkedin.com/posts/rigoberto-rinc%C3%B3n-ballesteros-8a7229159_datascience-nlp-politicalanalysis-activity-7254521922078621696-cGwz?utm_source=share&utm_medium=member_desktop&rcm=ACoAACXxS78B6sswV20YrHYs_L9rzHmUMJWNF-w" class="project-link">
                             <i class="fab fa-linkedin"></i> <span data-es="Publicación" data-en="Post">Publicación</span>
@@ -266,6 +722,171 @@
         </iframe>
     </div>
 
-    <script src="script.js"></script>
+    <style>
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
+        }
+
+        .chat-toggle i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            display: none;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header {
+            background: var(--accent);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h4 {
+            margin: 0;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-widget iframe {
+            border-radius: 0 0 15px 15px;
+            height: calc(100% - 50px);
+        }
+
+        @media (max-width: 768px) {
+            .chat-widget {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+            }
+        }
+    </style>
+
+    <script>
+        // Language switching functionality
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const currentLang = 'es'; // Default language
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetLang = btn.getAttribute('data-lang');
+                
+                // Update active button
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update all elements with language attributes
+                const elementsWithLang = document.querySelectorAll('[data-es][data-en]');
+                elementsWithLang.forEach(element => {
+                    element.textContent = element.getAttribute(`data-${targetLang}`);
+                });
+            });
+        });
+
+        // Chat widget functionality
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWidget = document.getElementById('chatWidget');
+        const closeChat = document.getElementById('closeChat');
+
+        chatToggle.addEventListener('click', () => {
+            if (chatWidget.style.display === 'none' || !chatWidget.style.display) {
+                chatWidget.style.display = 'block';
+                chatToggle.style.display = 'none';
+            }
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWidget.style.display = 'none';
+            chatToggle.style.display = 'flex';
+        });
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!chatWidget.contains(e.target) && !chatToggle.contains(e.target)) {
+                if (chatWidget.style.display === 'block') {
+                    chatWidget.style.display = 'none';
+                    chatToggle.style.display = 'flex';
+                }
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards and timeline items
+        document.querySelectorAll('.card, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
