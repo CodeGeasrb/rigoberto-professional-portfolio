@@ -740,11 +740,12 @@
             transition: all 0.3s ease;
         }
 
-        .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
-        }
-
+        .chat-widget iframe {
+                border-radius: 0 0 15px 15px;
+                height: calc(100% - 50px);
+                /* Usa zoom en lugar de transform para mejor calidad */
+                zoom: 0.9; /* Cambia este valor: 0.85, 0.9, 0.95 */
+            }
         .chat-toggle i {
             font-size: 24px;
             color: white;
@@ -807,6 +808,7 @@
         .chat-widget {
             overflow: hidden; /* Ya lo tienes, pero asegúrate que esté */
         }
+
     </style>
 
         @media (max-width: 768px) {
